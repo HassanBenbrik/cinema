@@ -1,0 +1,17 @@
+[project]
+name = "Cinema"
+version = "1.0.0"
+description = "A GUI application to manage movies with Tkinter"
+authors = [
+    { name = "Hassan Benbrik" }
+]
+requires-python = ">=3.8"
+dependencies = [
+    "beautifulsoup4",
+    "requests",
+    "Pillow"
+]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
