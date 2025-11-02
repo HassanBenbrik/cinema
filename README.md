@@ -20,8 +20,8 @@ cd cinema
 
 ## Install dependencies:
 
-pip install -r requirements.txt
-or
-pip install .
+pip install -r requirements.txt <br>
+or <br>
+pip install . <br>
 
 
