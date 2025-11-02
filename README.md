@@ -13,7 +13,7 @@ A GUI application to manage movies using Tkinter, SQLite, and Python.
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/HassanBenbrik/cinema.git
+git clone https://gitlab.com/HassanBenbrik/cinema.git
 cd cinema
 ```
 
