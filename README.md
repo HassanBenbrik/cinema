@@ -19,10 +19,10 @@ cd cinema
 
 ### Install dependencies:
 ```bash
-pip install -r requirements.txt <br>
+pip install -r requirements.txt
 ```
 
-or <br>
+or
 
 ```bash
 pip install .
