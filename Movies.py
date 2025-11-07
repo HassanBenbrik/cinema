@@ -1060,7 +1060,7 @@ entry_other_name.place(x=140, y=170, width=550)
 # command Button
 y = 205
 step = 35
-button_add = Button(fenetre, text="Add Movie (F2)", bg="darkblue", fg="yellow", command=lambda: add_movie_threading.start(), activebackground="green")
+button_add = Button(fenetre, text="Add Movie (F2)", bg="darkblue", fg="yellow", command=lambda: add_movie_threading.start(), activebackground="green", state=DISABLED)
 button_add.place(x=5, y=y + 0*step, width=155, height=30)
 button_update = Button(fenetre, text="Update Movie (Ctrl+U)", bg="darkblue", fg="yellow", state=DISABLED, command=update_movie, activebackground="green")
 button_update.place(x=5, y=y + 1*step, width=155, height=30)
