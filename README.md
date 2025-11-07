@@ -25,7 +25,7 @@ pip install -r requirements.txt <br>
 or <br>
 
 ```bash
-pip install . <br>
+pip install .
 ```
 
 ## Lunch the application
