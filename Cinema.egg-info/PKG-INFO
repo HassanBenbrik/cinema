@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: Cinema
+Version: 1.0.0
+Summary: A GUI application to manage movies with Tkinter
+Author: Hassan Benbrik
+Requires-Python: >=3.8
+Requires-Dist: beautifulsoup4
+Requires-Dist: requests
+Requires-Dist: Pillow
+Dynamic: requires-python

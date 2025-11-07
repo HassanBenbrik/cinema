@@ -1,4 +1,4 @@
-from tkinter import ttk, filedialog, messagebox
+from tkinter import ttk, filedialog, messagebox, simpledialog
 from tkinter import *
 from tkinter import colorchooser
 import os
@@ -120,21 +120,21 @@ def last_update():
 def download_with_progress(link_name, fileName, fileExtension):
 	file_name = "{}{}".format(fileName, fileExtension)
 	with open(file_name, "wb") as f:
-	    print("Downloading %s" % file_name)
-	    response = requests.get(link_name, stream=True)
-	    total_length = response.headers.get('content-length')
+		print("Downloading %s" % file_name)
+		response = requests.get(link_name, stream=True)
+		total_length = response.headers.get('content-length')
 
-	    if total_length is None: # no content length header
-	        f.write(response.content)
-	    else:
-	        dl = 0
-	        total_length = int(total_length)
-	        for data in response.iter_content(chunk_size=4096):
-	            dl += len(data)
-	            f.write(data)
-	            done = int(100 * dl / total_length)
-	            sys.stdout.write(str("\r[%s%s]" % ('.' * done, ' ' * (100-done))) + " " + str(done) + "%")
-	            sys.stdout.flush()
+		if total_length is None: # no content length header
+			f.write(response.content)
+		else:
+			dl = 0
+			total_length = int(total_length)
+			for data in response.iter_content(chunk_size=4096):
+				dl += len(data)
+				f.write(data)
+				done = int(100 * dl / total_length)
+				sys.stdout.write(str("\r[%s%s]" % ('.' * done, ' ' * (100-done))) + " " + str(done) + "%")
+				sys.stdout.flush()
 
 def search_for_movie_s_year(name_movie):
 	global the_full_movie_s_name
@@ -617,94 +617,115 @@ def add_movie():
 add_movie_threading = threading.Thread(target=add_movie, args=())
 
 def update_the_movie(event):
-	if messagebox.askokcancel("Update","Are you sure ?"):
-		update_movie()
+	update_movie()
+	
 def update_movie():
-	idSelect = tree.item(tree.selection())["values"][0]
-	conn = sqlite3.connect("MOVIES.db")
-	cursor = conn.cursor()
-	if var_checkbutton_name.get() == 1:
-		watched = "True"
-	else:
-		watched = "False"
-	cursor.execute("UPDATE Movies SET name=?, year=?, rating=?, language=?, movie_other_name=?, picture=?, watched=? WHERE id=?", (entry_name.get(), entry_year.get(), entry_rating.get(), entry_language.get(), entry_other_name.get(), var_photo.get(), watched, idSelect))
-	conn.commit()
-	conn.close()
-	if watched == "True":
-		replace_the_movies(idSelect)
-	conn = sqlite3.connect("MOVIES.db")
-	cursor = conn.cursor()
-	select = cursor.execute("SELECT * FROM Movies ORDER BY id DESC")
-	watched_or_not(select)
-	conn.close()
-	########################
-	# _iid = tree.get_children()[tree.item(tree.selection())["values"][0]]
-	# tree.focus(_iid)
-	# tree.selection_set(_iid)
-	########################
-	len_the_types()
-	messagebox.showinfo("Update", "The Item Has Updated Successfuly!")
+	if messagebox.askokcancel("Update","Are you sure ?"):
+		root = Tk()
+		root.withdraw()  # Hide the main Tkinter window
+		user_password = simpledialog.askstring("Enter Password", "Please enter the password:", show="*")
+		if user_password == "HassanBenbrik":
+			print(f"You've entered: {user_password}")
+
+			idSelect = tree.item(tree.selection())["values"][0]
+			conn = sqlite3.connect("MOVIES.db")
+			cursor = conn.cursor()
+			if var_checkbutton_name.get() == 1:
+				watched = "True"
+			else:
+				watched = "False"
+			cursor.execute("UPDATE Movies SET name=?, year=?, rating=?, language=?, movie_other_name=?, picture=?, watched=? WHERE id=?", (entry_name.get(), entry_year.get(), entry_rating.get(), entry_language.get(), entry_other_name.get(), var_photo.get(), watched, idSelect))
+			conn.commit()
+			conn.close()
+			if watched == "True":
+				replace_the_movies(idSelect)
+			conn = sqlite3.connect("MOVIES.db")
+			cursor = conn.cursor()
+			select = cursor.execute("SELECT * FROM Movies ORDER BY id DESC")
+			watched_or_not(select)
+			conn.close()
+			########################
+			# _iid = tree.get_children()[tree.item(tree.selection())["values"][0]]
+			# tree.focus(_iid)
+			# tree.selection_set(_iid)
+			########################
+			len_the_types()
+			messagebox.showinfo("Update", "The Item Has Updated Successfuly!")
+		else:
+			messagebox.showerror(title="Incorrect Password", message="The Password you're entered is INCORRECT")
+
+	root.destroy()
 
 def event_button_delete(event):
 	delete_movie()
 
 def delete_movie():
 	if messagebox.askokcancel("Delete","Are you sure ?"):
-		idSelect = tree.item(tree.selection())["values"][0]
-		pictureSelect = tree.item(tree.selection())["values"][6]
-		conn = sqlite3.connect("MOVIES.db")
-		cursor = conn.cursor()
-		
-		main_path = os.path.dirname(os.path.abspath(__file__)) # get the cutrrent path
-		
-		pictures_path = main_path + "/Movies Images/"
-		subtitles_path = main_path + "/Subtitles Databases/"
-		zip_path = main_path + "/Download ZIPs/"
-		actors_path = main_path + "/Actors Images/"
+		root = Tk()
+		root.withdraw()  # Hide the main Tkinter window
+		user_password = simpledialog.askstring("Enter Password", "Please enter the password:", show="*")
 
-		pictures_list = os.listdir(pictures_path)
-		subtitles_list = os.listdir(subtitles_path)
-		zip_list = os.listdir(zip_path)
-		actors_list = os.listdir(actors_path)
-
-		if pictureSelect in pictures_list:
-			os.makedirs(main_path + "/Deleted Movies/Images/", exist_ok=True)
-			imagesDestinationPath = main_path + "/Deleted Movies/Images"
+		if user_password == "HassanBenbrik":
+			print(f"You've entered: {user_password}")
+			idSelect = tree.item(tree.selection())["values"][0]
+			pictureSelect = tree.item(tree.selection())["values"][6]
+			conn = sqlite3.connect("MOVIES.db")
+			cursor = conn.cursor()
+			
+			main_path = os.path.dirname(os.path.abspath(__file__)) # get the cutrrent path
+			
 			pictures_path = main_path + "/Movies Images/"
-			if not pictureSelect in os.listdir(imagesDestinationPath):
-				os.rename(pictures_path + pictureSelect, imagesDestinationPath + pictureSelect)
-			else:
-				os.rename(pictures_path + pictureSelect, imagesDestinationPath + "(Already Exists) " + pictureSelect)
-		
-		# if subtitleSelect in subtitles_list:
-		# 	os.makedirs(main_path + "/Deleted Movies/Subtitles/", exist_ok=True)
-		# 	imagesDestinationPath = main_path + "/Deleted Movies/"
-		# 	subtitles_path = main_path + "/Movies Images/"
-		# 	if not subtitleSelect in os.listdir(imagesDestinationPath):
-		# 		os.rename(subtitles_path + subtitleSelect, imagesDestinationPath + subtitleSelect)
-		
-		# if zipSelect in pictures_list:
-		# 	os.makedirs(main_path + "/Deleted Movies/ZIPs/", exist_ok=True)
-		# 	zipDestinationPath = main_path + "/Deleted Movies/"
-		# 	zip_path = main_path + "/Movies Images/"
-		# 	if not zipSelect in os.listdir(zipDestinationPath):
-		# 		os.rename(zip_path + zipSelect, zipDestinationPath + zipSelect)
-		
-		# if actorsSelect in pictures_list:
-		# 	os.makedirs(main_path + "/Deleted Movies/Actors/", exist_ok=True)
-		# 	actorsDestinationPath = main_path + "/Deleted Movies/"
-		# 	actors_path = main_path + "/Movies Images/"
-		# 	if not actorsSelect in os.listdir(actorsDestinationPath):
-		# 		os.rename(actors_path + actorsSelect, actorsDestinationPath + actorsSelect)
-		
-		cursor.execute("DELETE FROM Movies WHERE id = {}".format(idSelect))
-		conn.commit()
-		conn.close()
-		tree.delete(tree.selection())
-		get_IDs()
-		display_movies()
-		treeFocus("event")
-		return messagebox.showinfo(title="Delete Success", message="Movie Has Deleted Successfuly")
+			subtitles_path = main_path + "/Subtitles Databases/"
+			zip_path = main_path + "/Download ZIPs/"
+			actors_path = main_path + "/Actors Images/"
+
+			pictures_list = os.listdir(pictures_path)
+			subtitles_list = os.listdir(subtitles_path)
+			zip_list = os.listdir(zip_path)
+			actors_list = os.listdir(actors_path)
+
+			if pictureSelect in pictures_list:
+				os.makedirs(main_path + "/Deleted Movies/Images/", exist_ok=True)
+				imagesDestinationPath = main_path + "/Deleted Movies/Images"
+				pictures_path = main_path + "/Movies Images/"
+				if not pictureSelect in os.listdir(imagesDestinationPath):
+					os.rename(pictures_path + pictureSelect, imagesDestinationPath + pictureSelect)
+				else:
+					os.rename(pictures_path + pictureSelect, imagesDestinationPath + "(Already Exists) " + pictureSelect)
+			
+			# if subtitleSelect in subtitles_list:
+			# 	os.makedirs(main_path + "/Deleted Movies/Subtitles/", exist_ok=True)
+			# 	imagesDestinationPath = main_path + "/Deleted Movies/"
+			# 	subtitles_path = main_path + "/Movies Images/"
+			# 	if not subtitleSelect in os.listdir(imagesDestinationPath):
+			# 		os.rename(subtitles_path + subtitleSelect, imagesDestinationPath + subtitleSelect)
+			
+			# if zipSelect in pictures_list:
+			# 	os.makedirs(main_path + "/Deleted Movies/ZIPs/", exist_ok=True)
+			# 	zipDestinationPath = main_path + "/Deleted Movies/"
+			# 	zip_path = main_path + "/Movies Images/"
+			# 	if not zipSelect in os.listdir(zipDestinationPath):
+			# 		os.rename(zip_path + zipSelect, zipDestinationPath + zipSelect)
+			
+			# if actorsSelect in pictures_list:
+			# 	os.makedirs(main_path + "/Deleted Movies/Actors/", exist_ok=True)
+			# 	actorsDestinationPath = main_path + "/Deleted Movies/"
+			# 	actors_path = main_path + "/Movies Images/"
+			# 	if not actorsSelect in os.listdir(actorsDestinationPath):
+			# 		os.rename(actors_path + actorsSelect, actorsDestinationPath + actorsSelect)
+			
+			cursor.execute("DELETE FROM Movies WHERE id = {}".format(idSelect))
+			conn.commit()
+			conn.close()
+			tree.delete(tree.selection())
+			get_IDs()
+			display_movies()
+			treeFocus("event")
+			return messagebox.showinfo(title="Delete Success", message="Movie Has Deleted Successfuly")
+		else:
+			messagebox.showerror(title="Incorrect Password", message="The Password you're entered is INCORRECT")
+
+		root.destroy()
 
 def open_youtube(event):
 	watch_trailer()

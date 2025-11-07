@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+setup.py
+Cinema.egg-info/PKG-INFO
+Cinema.egg-info/SOURCES.txt
+Cinema.egg-info/dependency_links.txt
+Cinema.egg-info/requires.txt
+Cinema.egg-info/top_level.txt
